@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Bus Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="topbar" id="topbar" style="display:none;">
+    <h2>College Bus Tracker</h2>
+    <div>
+      <span id="whoami"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- ============ LOGIN / REGISTER ============ -->
+  <div id="authSection" class="container">
+    <div class="card small">
+      <h2>College Bus Tracking System</h2>
+
+      <div id="loginBox">
+        <h3>Login</h3>
+        <input type="email" id="loginEmail" placeholder="Email">
+        <input type="password" id="loginPassword" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p class="link" onclick="showRegister(true)">New user? Register here</p>
+      </div>
+
+      <div id="registerBox" style="display:none;">
+        <h3>Register</h3>
+        <input type="text" id="regName" placeholder="Full name">
+        <input type="email" id="regEmail" placeholder="Email">
+        <input type="password" id="regPassword" placeholder="Password">
+        <input type="text" id="regContact" placeholder="Contact number">
+        <input type="text" id="regAddress" placeholder="Address / area (needed for students)">
+        <select id="regRole">
+          <option value="student">Student</option>
+          <option value="driver">Driver</option>
+
+        </select>
+        <button onclick="register()">Register</button>
+        <p class="link" onclick="showRegister(false)">Already have an account? Login</p>
+      </div>
+
+      <p id="authMsg" class="msg"></p>
+    </div>
+  </div>
+
+  <!-- ============ ADMIN ============ -->
+  <div id="adminSection" class="container" style="display:none;">
+    <h2>Admin Dashboard</h2>
+
+    <div class="stats">
+      <div class="stat"><h1 id="sBuses">0</h1><p>Total Buses</p></div>
+      <div class="stat"><h1 id="sRoutes">0</h1><p>Active Routes</p></div>
+      <div class="stat"><h1 id="sStudents">0</h1><p>Students Allocated</p></div>
+      <div class="stat"><h1 id="sEnRoute">0</h1><p>Buses En Route</p></div>
+    </div>
+
+    <div class="row">
+      <div class="card">
+        <h3>Add Bus</h3>
+        <input type="text" id="busNumber" placeholder="Bus number (eg. TS-03-1234)">
+        <input type="number" id="busCapacity" placeholder="Capacity">
+        <select id="busDriver"></select>
+        <button onclick="addBus()">Add Bus</button>
+      </div>
+
+      <div class="card">
+        <h3>Add Route</h3>
+        <input type="text" id="routeName" placeholder="Route name">
+        <input type="text" id="routeStops" placeholder="Stops in order, separated by comma">
+        <input type="text" id="routeTimings" placeholder="Timings, separated by comma (optional)">
+        <select id="routeBus"></select>
+        <button onclick="addRoute()">Add Route</button>
+      </div>
+
+      <div class="card">
+        <h3>Allocate Student</h3>
+        <select id="allocStudent"></select>
+        <select id="allocRoute" onchange="fillStops()"></select>
+        <select id="allocStop"></select>
+        <button onclick="assignStudent()">Assign</button>
+      </div>
+    </div>
+
+    <p id="adminMsg" class="msg"></p>
+
+    <div class="card">
+      <h3>All Buses</h3>
+      <table>
+        <thead><tr><th>Bus No</th><th>Capacity</th><th>Driver</th><th>Trip Status</th><th>Current Stop</th></tr></thead>
+        <tbody id="busTable"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>All Routes</h3>
+      <table>
+        <thead><tr><th>Route</th><th>Stops</th><th>Bus</th><th>Driver</th><th>Status</th></tr></thead>
+        <tbody id="routeTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ STUDENT ============ -->
+  <div id="studentSection" class="container" style="display:none;">
+    <h2>My Route</h2>
+    <div class="card" id="myRouteCard">Loading...</div>
+
+    <div class="card">
+      <h3>Live Bus Tracking (Simulated)</h3>
+      <div class="live" id="liveBox">-</div>
+      <p id="etaBox"></p>
+      <button onclick="loadStudentStatus()">Refresh</button>
+    </div>
+  </div>
+
+  <!-- ============ DRIVER ============ -->
+  <div id="driverSection" class="container" style="display:none;">
+    <h2>Driver Panel</h2>
+    <div class="card" id="driverRouteCard">Loading...</div>
+
+    <div class="card">
+      <h3>Trip Controls</h3>
+      <button onclick="tripAction('start')">Start Trip</button>
+      <button onclick="tripAction('next')">Next Stop</button>
+      <button class="red" onclick="tripAction('end')">End Trip</button>
+      <p id="driverMsg" class="msg"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
