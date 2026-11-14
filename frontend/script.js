@@ -1,6 +1,7 @@
 var API = '/api';
 var token = localStorage.getItem('token');
 var user = JSON.parse(localStorage.getItem('user') || 'null');
+var adminLoginMode = false;
 var allRoutes = [];
 var driverBusId = null;
 var studentTimer = null;
@@ -34,6 +35,17 @@ function showRegister(flag) {
   document.getElementById('authMsg').innerText = '';
 }
 
+function setAdminMode(flag) {
+  adminLoginMode = flag;
+  showRegister(false);
+  document.getElementById('loginTitle').innerText = flag ? 'Admin Login' : 'Login';
+  document.getElementById('loginButton').innerText = flag ? 'Admin Login' : 'Login';
+  document.getElementById('adminHint').style.display = flag ? 'block' : 'none';
+  document.getElementById('adminLoginLink').style.display = flag ? 'none' : 'block';
+  document.getElementById('regularLoginLink').style.display = flag ? 'block' : 'none';
+  document.getElementById('registerLink').style.display = flag ? 'none' : 'block';
+}
+
 async function register() {
   var body = {
     name: document.getElementById('regName').value,
@@ -59,6 +71,10 @@ async function login() {
   };
   try {
     var data = await api('/auth/login', 'POST', body);
+    if (adminLoginMode && data.user.role !== 'admin') {
+      document.getElementById('authMsg').innerText = 'This account does not have administrator access.';
+      return;
+    }
     token = data.token;
     user = data.user;
     localStorage.setItem('token', token);
