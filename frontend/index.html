@@ -22,11 +22,14 @@
       <h2>College Bus Tracking System</h2>
 
       <div id="loginBox">
-        <h3>Login</h3>
+        <h3 id="loginTitle">Login</h3>
         <input type="email" id="loginEmail" placeholder="Email">
         <input type="password" id="loginPassword" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <p class="link" onclick="showRegister(true)">New user? Register here</p>
+        <button id="loginButton" onclick="login()">Login</button>
+        <p id="adminHint" style="display:none;font-size:13px;color:#555;margin-top:10px;">Admin accounts must be provisioned by the transport manager. Public registration cannot create admin access.</p>
+        <p class="link" id="registerLink" onclick="showRegister(true)">New user? Register here</p>
+        <p class="link" id="adminLoginLink" onclick="setAdminMode(true)">Admin login</p>
+        <p class="link" id="regularLoginLink" style="display:none;" onclick="setAdminMode(false)">Back to regular login</p>
       </div>
 
       <div id="registerBox" style="display:none;">
@@ -42,7 +45,8 @@
 
         </select>
         <button onclick="register()">Register</button>
-        <p class="link" onclick="showRegister(false)">Already have an account? Login</p>
+        <p class="link" onclick="setAdminMode(false)">Already have an account? Login</p>
+        <p class="link" onclick="setAdminMode(true)">Admin login</p>
       </div>
 
       <p id="authMsg" class="msg"></p>
